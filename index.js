@@ -15,7 +15,12 @@ function randomNumber(min, max) {
 }
 
 function setDirection(e) {
-  if (e.key === "w" || e.key === "s" || e.key === "a" || e.key === "d") {
+  if (
+    (e.key === "w" && direction !== "s") ||
+    (e.key === "s" && direction !== "w") ||
+    (e.key === "a" && direction !== "d") ||
+    (e.key === "d" && direction !== "a")
+  ) {
     direction = e.key;
   }
 }
@@ -106,6 +111,6 @@ function main() {
 }
 
 main();
-const runtime = setInterval(main, 500);
+const runtime = setInterval(main, 250);
 
 addEventListener("keydown", setDirection);
