@@ -1,15 +1,21 @@
-const height = 9;
-const width = 9;
+const height = 19;
+const width = 19;
 let direction = "w";
-let snake = [
-  { x: 4, y: 5 },
-  { x: 4, y: 6 },
-  { x: 4, y: 7 },
+const initSnakeState = [
+  { x: 4, y: 5, isHead: true },
+  { x: 4, y: 6, isHead: false },
+  { x: 4, y: 7, isHead: false },
+  { x: 4, y: 8, isHead: false },
+  { x: 4, y: 9, isHead: false },
+  { x: 4, y: 10, isHead: false },
+  { x: 4, y: 11, isHead: false },
 ];
-let apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
+
+let snake = initSnakeState;
+let apple = { x: randomNumber(0, width), y: randomNumber(0, height) };
 
 function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function setDirection(e) {
@@ -19,18 +25,28 @@ function setDirection(e) {
   }
 }
 
+function notify() {
+  document
+    .querySelector("body")
+    .insertAdjacentHTML(
+      "afterbegin",
+      `<div class="notify"><span>you are dead, reload page to restart</span></div>`
+    );
+}
+
 function main() {
   function moveSnake() {
     const head = snake[0];
+    snake[0].isHead = false;
 
     if (direction === "w") {
-      snake.unshift({ x: head.x, y: head.y - 1 });
+      snake.unshift({ x: head.x, y: head.y - 1, isHead: true });
     } else if (direction === "s") {
-      snake.unshift({ x: head.x, y: head.y + 1 });
+      snake.unshift({ x: head.x, y: head.y + 1, isHead: true });
     } else if (direction === "a") {
-      snake.unshift({ x: head.x - 1, y: head.y });
+      snake.unshift({ x: head.x - 1, y: head.y, isHead: true });
     } else if (direction === "d") {
-      snake.unshift({ x: head.x + 1, y: head.y });
+      snake.unshift({ x: head.x + 1, y: head.y, isHead: true });
     }
     if (snake[0].x === apple.x && snake[0].y === apple.y) {
       apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
@@ -40,28 +56,20 @@ function main() {
     if (
       snake[0].x === -1 ||
       snake[0].y === -1 ||
-      snake[0].x === 10 ||
-      snake[0].y === 10
+      snake[0].x === width + 1 ||
+      snake[0].y === height + 1
     ) {
       clearInterval(runtime);
-      alert("you are dead, reload page to restart");
-      snake = [
-        { x: 4, y: 5 },
-        { x: 4, y: 6 },
-        { x: 4, y: 7 },
-      ];
+      notify();
+      snake = initSnakeState;
     }
 
     [...snake].forEach((el, index) => {
       if (index === 0) return;
       if (snake[0].x === el.x && snake[0].y === el.y) {
+        snake.splice(index, 1);
         clearInterval(runtime);
-        alert("you are dead, reload page to restart");
-        snake = [
-          { x: 4, y: 5 },
-          { x: 4, y: 6 },
-          { x: 4, y: 7 },
-        ];
+        notify();
       }
     });
   }
@@ -72,12 +80,16 @@ function main() {
     for (let y = 0; y <= height; y += 1) {
       for (let x = 0; x <= width; x += 1) {
         let isSnakeBlock = false;
+
         for (const snakeBlock of snake) {
           if (snakeBlock.x === x && snakeBlock.y === y) {
             if (snakeBlock.x === apple.x && snakeBlock.y === apple.y) {
               apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
             }
-            markup.push(`<div class="snake"></div>`);
+            console.log(snakeBlock);
+            snakeBlock.isHead
+              ? markup.push(`<div class="snakeHead"></div>`)
+              : markup.push(`<div class="snake"></div>`);
             isSnakeBlock = true;
           }
         }
@@ -96,6 +108,6 @@ function main() {
 }
 
 main();
-const runtime = setInterval(main, 1000);
+const runtime = setInterval(main, 500);
 
 addEventListener("keydown", setDirection);
