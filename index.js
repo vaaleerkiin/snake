@@ -5,10 +5,6 @@ const initSnakeState = [
   { x: 4, y: 5, isHead: true },
   { x: 4, y: 6, isHead: false },
   { x: 4, y: 7, isHead: false },
-  { x: 4, y: 8, isHead: false },
-  { x: 4, y: 9, isHead: false },
-  { x: 4, y: 10, isHead: false },
-  { x: 4, y: 11, isHead: false },
 ];
 
 let snake = initSnakeState;
