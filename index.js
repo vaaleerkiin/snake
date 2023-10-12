@@ -17,7 +17,6 @@ function randomNumber(min, max) {
 function setDirection(e) {
   if (e.key === "w" || e.key === "s" || e.key === "a" || e.key === "d") {
     direction = e.key;
-    console.log(direction);
   }
 }
 
