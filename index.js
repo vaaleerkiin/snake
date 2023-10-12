@@ -1,7 +1,7 @@
 const height = 19;
 const width = 19;
 let direction = "w";
-const markup = [];
+
 const initSnakeState = [
   { x: 4, y: 5, isHead: true },
   { x: 4, y: 6, isHead: false },
@@ -70,6 +70,7 @@ function moveSnake() {
 }
 
 function draw() {
+  const markup = [];
   for (let y = 0; y <= height; y += 1) {
     for (let x = 0; x <= width; x += 1) {
       let isSnakeBlock = false;
