@@ -79,7 +79,6 @@ function draw() {
           if (snakeBlock.x === apple.x && snakeBlock.y === apple.y) {
             apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
           }
-          console.log(snakeBlock);
           snakeBlock.isHead
             ? markup.push(`<div class="snakeHead"></div>`)
             : markup.push(`<div class="snake"></div>`);
