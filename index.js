@@ -3,9 +3,9 @@ const width = 19;
 let direction = "w";
 
 const initSnakeState = [
-  { x: 4, y: 5, isHead: true },
-  { x: 4, y: 6, isHead: false },
-  { x: 4, y: 7, isHead: false },
+  { x: 4, y: 5, pos: "head" },
+  { x: 4, y: 6, pos: "even" },
+  { x: 4, y: 7, pos: "odd" },
 ];
 let snake = initSnakeState;
 let apple = { x: randomNumber(0, width), y: randomNumber(0, height) };
@@ -31,16 +31,16 @@ function notify() {
 
 function moveSnake() {
   const head = snake[0];
-  snake[0].isHead = false;
+  snake[0].pos = "even";
 
   if (direction === "w") {
-    snake.unshift({ x: head.x, y: head.y - 1, isHead: true });
+    snake.unshift({ x: head.x, y: head.y - 1, pos: "head" });
   } else if (direction === "s") {
-    snake.unshift({ x: head.x, y: head.y + 1, isHead: true });
+    snake.unshift({ x: head.x, y: head.y + 1, pos: "head" });
   } else if (direction === "a") {
-    snake.unshift({ x: head.x - 1, y: head.y, isHead: true });
+    snake.unshift({ x: head.x - 1, y: head.y, pos: "head" });
   } else if (direction === "d") {
-    snake.unshift({ x: head.x + 1, y: head.y, isHead: true });
+    snake.unshift({ x: head.x + 1, y: head.y, pos: "head" });
   }
   if (snake[0].x === apple.x && snake[0].y === apple.y) {
     apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
@@ -55,7 +55,6 @@ function moveSnake() {
   ) {
     clearInterval(runtime);
     notify();
-    snake = initSnakeState;
   }
 
   [...snake].forEach((el, index) => {
@@ -65,6 +64,12 @@ function moveSnake() {
       clearInterval(runtime);
       notify();
     }
+
+    snake = snake.map((el, index) => {
+      if (index === 0) return el;
+      if (index % 2 === 0) return { x: el.x, y: el.y, pos: "even" };
+      else return { x: el.x, y: el.y, pos: "odd" };
+    });
   });
 }
 
@@ -79,9 +84,9 @@ function draw() {
           if (snakeBlock.x === apple.x && snakeBlock.y === apple.y) {
             apple = { x: randomNumber(0, 9), y: randomNumber(0, 9) };
           }
-          snakeBlock.isHead
+          snakeBlock.pos === "head"
             ? markup.push(`<div class="snakeHead"></div>`)
-            : markup.push(`<div class="snake"></div>`);
+            : markup.push(`<div class="snake ${snakeBlock.pos}"></div>`);
           isSnakeBlock = true;
         }
       }

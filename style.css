@@ -44,13 +44,22 @@ body {
 }
 
 .snake {
-  background-color: rgb(126, 89, 47);
   min-width: calc(70px / 2);
   min-height: calc(70px / 2);
   max-width: calc(70px / 2);
   max-height: calc(70px / 2);
-  border: 2px rgb(102, 72, 37) solid;
+
   border-radius: 1px;
+}
+
+.odd {
+  background-color: rgb(126, 89, 47);
+  border: 2px rgb(102, 72, 37) solid;
+}
+
+.even {
+  background-color: rgb(100, 74, 45);
+  border: 2px rgb(105, 77, 45) solid;
 }
 
 .snakeHead {
