@@ -38,13 +38,13 @@ function moveSnake() {
   const head = snake[0];
   snake[0].pos = "even";
 
-  if (direction === "w") {
+  if (direction.toLowerCase() === "w") {
     snake.unshift({ x: head.x, y: head.y - 1, pos: "head" });
-  } else if (direction === "s") {
+  } else if (direction.toLowerCase() === "s") {
     snake.unshift({ x: head.x, y: head.y + 1, pos: "head" });
-  } else if (direction === "a") {
+  } else if (direction.toLowerCase() === "a") {
     snake.unshift({ x: head.x - 1, y: head.y, pos: "head" });
-  } else if (direction === "d") {
+  } else if (direction.toLowerCase() === "d") {
     snake.unshift({ x: head.x + 1, y: head.y, pos: "head" });
   }
   if (snake[0].x === apple.x && snake[0].y === apple.y) {
